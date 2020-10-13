@@ -3,6 +3,7 @@
 <url> <loc>https://pchethan.github.io/</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pchethan.github.io/blog</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pchethan.github.io/tags</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://pchethan.github.io/oo-design-tools</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pchethan.github.io/a-design-for-orchestration-with-microservices</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pchethan.github.io/rest-a-closer-look</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pchethan.github.io/about</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
@@ -10,4 +11,5 @@
 <url> <loc>https://pchethan.github.io/tags/architecture</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pchethan.github.io/tags/design</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pchethan.github.io/tags/rest</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://pchethan.github.io/tags/tools</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 </urlset>
