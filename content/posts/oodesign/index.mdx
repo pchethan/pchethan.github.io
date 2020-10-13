@@ -1,30 +1,42 @@
 ---
-title: OO Design Tools
+title: (OO) Design Tools and Complex Systems
 date: 2020-10-13
 tags:
   - Design
   - Tools
 ---
-
-Object oriented design is one of the most widely used design methodologies even today.
-
-In their popular book "Object-Oriented Analysis and Design with Applications", the authors (Grady Booch et al), list and describe qualities of successful complex systems (social structure, structure of plants etc).
-- Hierarchy
+## 5 Attributes of Complex Systems
+In their popular book "Object-Oriented Analysis and Design with Applications", the authors (Grady Booch et al), list and describe attributes of successful complex systems:
+- Hierarchical Structure
 - Separation of Concerns
 - Economy of expression
 - Relative Primitives
-- Stable intermediate forms.
+- Stable intermediate forms
 
-They posit that features of object modeling and design synergestically help achieve the qualities of complex systems. 
+Although the authors cite various good examples, the success of world wide web itself is enough to convince anyone.
 
-Below chart is a summary of 'how'. The chart arranges various OO features and their abstract/concrete forms in two dimensions, categorised by the 5 benefits they impart and the degree of abstractness.
+<img src="./oodesignimages/internet-map-featured.jpg" alt="drawing" style="width:480px;"/>
 
-The utility of this chart is seen when we evaluate SOLID OO-principles on this chart.  We see areas in which SOLID principles help system design, where they do not and the degree of their contribution.
+(Source: kaspersky.com)
 
+# OOD to Build Complex Systems
+
+The authors posit that object modeling and elements of object oriented design synergestically help us towards building such systems. The book was written years ago and we now do know that this is true because many large systems have been built predominantly with OO-X.
+
+## How?
+The book elaborates on how specific features of OO design help achieve the individual attributes of a complex system, but here is a gist (mine).
+
+The image shows how various elements of OOD contribute in different ways and extents, via their abstract design forms
 ![](./oodesignimages/oodesigntools.png)
 
-Below image shows derivation and relationship of various features of OO.
+
+For reference, here are the OO features and their relationship with more generic forms (arrow is derivation)
 ![](./oodesignimages/featurederivation.png)
+
+## Utility
+The fact that all roads lead to the 5 attributes via one or more generic design tools is immensely useful in evaluating new design methodologies or tools, or in the least in being aware of the extent to which a design approach helps.
+
+For e.g., the popular SOLID principles only help to an extent shown in the image. They help with the managing separation of concerns, but little or no contribution towards hierarchical structure of economy of expression.
 
 
 
