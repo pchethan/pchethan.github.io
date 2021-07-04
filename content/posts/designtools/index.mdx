@@ -9,18 +9,24 @@ Roy Fielding's thesis [captures](https://www.ics.uci.edu/~fielding/pubs/disserta
 
 Like REST, many architectural styles are composites, but so are software design tools [^1]. A design tool is a composite of multiple (relatively) primitive design tools. For example, polymorphism is based on **Generalization** which itself is based on **Abstraction**. 
 
-There isn't any formal classification (that I know) of design tools, probably because its considered - 'common knowledge'. However, it would be pretty useful if such thing exists. It establishes a knowledge base of building blocks of design. 
+There isn't any formal classification (that I know) of design tools, probably because its considered common knowledge. However, it would be something very useful if it were to exist today. It establishes a knowledge base of building blocks of design. 
 
-For example, microservices provide isolation. But it would not be much if the abstraction (type/scope/nature of services it provides) does not provide low coupling/high cohesion.
+For example, its known that microservices provide isolation. But it would not be much if the abstraction (type/scope/nature of services it provides) does not provide low coupling/high cohesion. (See image below)
 
 What does such classification look like? I have tried to create one for some commonly used design approaches (OOAD, DDD etc) and their elements. See image below [^2].
 
 ![](./designimages/tools.jpg)
 [Click here for larger image](https://github.com/pchethan/pchethan.github.io/blob/master/content/posts/designtools/designimages/tools.jpg)
 
+How to read the image (its similar to [this](https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm#fig_5_9)):
+
+- An arrow depicts the contribution of one design tool in the formation of the other at arrow head.
+- Multiple arrow heads mean that a tool is a composite. E.g., High Cohesion is formed from abstraction (a common concept necessitating things sticking together) and divide-and-conquer (division of the problem space with different granularities of concepts)
+
 - - - -
 
-Now, here are some observations I made from the image
+<br/>
+Now, here are some useful observations I made from the image
 
 - You dont have to take anyone's word for granted when they say 'Abstraction' is the most powerful design tool ever!
 - Modeling is a close second, but you can make your own inferences.
@@ -31,9 +37,9 @@ Now, here are some observations I made from the image
 - N-Tier architecture appears to be just LcHcDc, but a close look at 'layering' reveals that it has the distinction of ordered dependencies. 
 - Some tools are used more than others LcHcDc (or simply Isolation). Many of the approaches/technologies of this decade are founded on this. 
 
+<br/><br/><br/>
 
 
-
-[^1]: I use 'design tool' as opposed to 'design principle', because a principle in common usage refers to something concrete like 'single responsibility principle'. I found the word 'tool' to be more appropriate, because it is a thing you can apply and achieve something.
+[^1]: I use 'design tool' as opposed to 'design principle', because a principle in common usage today refers to something concrete like 'single responsibility principle'. I found the word 'tool' to be more appropriate, because it is a thing you can apply and achieve something.
 
 [^2]: I confess that the image may not be 100% accurate. I am not an academician. This image was originally my notes. I have been using it for discussions with colleagues in my organization. It has been evolving over time as I learn more and put more thought into their relationships.
