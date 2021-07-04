@@ -1,13 +1,39 @@
 ---
-title: Design tools from roots
+title: Design Tools
 date: 2020-10-13
 tags:
   - Design
   - Architecture
 ---
-This image must de-mystify that many design / architecture approaches have not appeared from thin air. They have their roots in two powerful fundamental, pure tools: Abstraction and Divide-and-conquer.
+Roy Fielding's thesis [captures](https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm#fig_5_9) various architectural styles that make up REST. REST has an _is a_ relationship with each of the individual styles. E.g., REST _is a_ client-server style. Such statement in itself says a lot; just as much a statement 'whale is a mammal' would say about a whale.
 
-[![](https://github.com/pchethan/pchethan.github.io/blob/master/content/posts/designtools/designimages/tools.jpg)](./designimages/tools.jpg)
+Like REST, many architectural styles are composites, but so are software design tools [^1]. A design tool is a composite of multiple (relatively) primitive design tools. For example, polymorphism is based on **Generalization** which itself is based on **Abstraction**. 
 
-Would love to hear if you disagree or want to add more things to this diagram. 
+There isn't any formal classification (that I know) of design tools, probably because its considered - 'common knowledge'. However, it would be pretty useful if such thing exists. It establishes a knowledge base of building blocks of design. 
 
+For example, microservices provide isolation. But it would not be much if the abstraction (type/scope/nature of services it provides) does not provide low coupling/high cohesion.
+
+What does such classification look like? I have tried to create one for some commonly used design approaches (OOAD, DDD etc) and their elements. See image below [^2].
+
+![](./designimages/tools.jpg)
+[Click here for larger image](https://github.com/pchethan/pchethan.github.io/blob/master/content/posts/designtools/designimages/tools.jpg)
+
+- - - -
+
+Now, here are some observations I made from the image
+
+- You dont have to take anyone's word for granted when they say 'Abstraction' is the most powerful design tool ever!
+- Modeling is a close second, but you can make your own inferences.
+- There seem to be plenty of items derived from ALcHcDc (A name obtained by concatenating individual styles). ALcHcDc provides isolation. Isolation seems to be the most in-demand trait. 
+- Is N-Tier architecture obselete? Not really.
+
+
+- N-Tier architecture appears to be just LcHcDc, but a close look at 'layering' reveals that it has the distinction of ordered dependencies. 
+- Some tools are used more than others LcHcDc (or simply Isolation). Many of the approaches/technologies of this decade are founded on this. 
+
+
+
+
+[^1]: I use 'design tool' as opposed to 'design principle', because a principle in common usage refers to something concrete like 'single responsibility principle'. I found the word 'tool' to be more appropriate, because it is a thing you can apply and achieve something.
+
+[^2]: I confess that the image may not be 100% accurate. I am not an academician. This image was originally my notes. I have been using it for discussions with colleagues in my organization. It has been evolving over time as I learn more and put more thought into their relationships.
