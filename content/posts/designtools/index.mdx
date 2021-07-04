@@ -5,32 +5,33 @@ tags:
   - Design
   - Architecture
 ---
-Roy Fielding's thesis [captures](https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm#fig_5_9) various architectural styles that make up REST. REST has an _is a_ relationship with each of the individual styles. E.g., REST _is a_ client-server style. Such statement in itself says a lot; just as much a statement 'whale is a mammal' would say about a whale.
+Roy Fielding's thesis [captures](https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm#fig_5_9) various architectural styles that REST is composed of. REST has an _is a_ relationship with each of the individual styles. E.g., REST _is a_ client-server style. Such statement in itself says a lot; just as much a statement 'whale is a mammal' would say about a whale.
 
-Like REST, many architectural styles are composites, but so are software design tools [^1]. A design tool is a composite of multiple (relatively) primitive design tools. For example, polymorphism is based on **Generalization** which itself is based on **Abstraction**. 
+Like REST, many architectural styles are composites, but so are software design tools [^1]. A design tool is a tool, when applied, solves a design problem. Well known example: 'divide-and-conquer'. Such a tool could be a composite of multiple (relatively) primitive design tools. For example, polymorphism is based on **Generalization** which itself is based on **Abstraction**. 
 
-There isn't any formal classification (that I know) of design tools, probably because its considered common knowledge. However, it would be something very useful if it were to exist today. It establishes a knowledge base of building blocks of design. 
+There isn't any formal classification (that I know) of design tools, probably because its considered common knowledge. However, it would be something very useful if it were to exist. 
 
-For example, its known that microservices provide isolation. But it would not be much if the abstraction (type/scope/nature of services it provides) does not provide low coupling/high cohesion. (See image below)
+For example, it is known that microservices provide isolation. But, not be much if the abstraction (type/scope/nature of services it provides) does not provide low coupling/high cohesion. (See image below). You see now?
 
 What does such classification look like? I have tried to create one for some commonly used design approaches (OOAD, DDD etc) and their elements. See image below [^2].
 
 ![](./designimages/tools.jpg)
 [Click here for larger image](https://github.com/pchethan/pchethan.github.io/blob/master/content/posts/designtools/designimages/tools.jpg)
 
-How to read the image (its similar to [this](https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm#fig_5_9)):
+How to read this image (its similar to [this](https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm#fig_5_9)):
 
 - An arrow depicts the contribution of one design tool in the formation of the other at arrow head.
 - Multiple arrow heads mean that a tool is a composite. E.g., High Cohesion is formed from abstraction (a common concept necessitating things sticking together) and divide-and-conquer (division of the problem space with different granularities of concepts)
+- Arrow labels indicate an abstract concept that forms a basis.
 
-- - - -
+----
 
 <br/>
 
-Now, here are some useful observations I made from the image
+Now, here are some useful observations I made from the classification
 
-- You dont have to take anyone's word for granted when they say 'Abstraction' is the most powerful design tool ever!
-- Modeling is a close second, but you can make your own inferences.
+- Proof that Abstraction is the most powerful design tool ever!
+- To me, Modeling is a close second, but you can make your own inferences.
 - There seem to be plenty of items derived from ALcHcDc (A name obtained by concatenating individual styles). ALcHcDc provides isolation. Isolation seems to be the most in-demand trait. 
 
 
