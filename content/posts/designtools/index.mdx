@@ -5,13 +5,15 @@ tags:
   - Design
   - Architecture
 ---
-Roy Fielding's thesis [captures](https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm#fig_5_9) various architectural styles that REST is composed of. REST has an _is a_ relationship with each of the individual styles. E.g., REST _is a_ client-server style. Such statement in itself says a lot; just as much a statement 'whale is a mammal' would say about a whale.
+Roy Fielding's thesis captures various architectural styles that REST is composed of. It captures *how* styles are derived from relatively simpler styles in the form of a [derivation graph](https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm#fig_5_9).
 
-Like REST, many architectural styles are composites, but so are software design tools [^1]. A design tool is a tool, when applied, solves a design problem. Well known example: 'divide-and-conquer'. Such a tool could be a composite of multiple (relatively) primitive design tools. For example, polymorphism is based on **Generalization** which itself is based on **Abstraction**. 
+The graph may appear academic, but I find it incredibly practical & useful. For e.g., it is clear that REST has an _is a_ relationship with each of the individual styles. A statement such as "REST _is a_ client-server style" in itself says a lot; just as much a statement 'whale is a mammal' would say about a whale.
 
-There isn't any formal classification (that I know) of design tools, probably because its considered common knowledge. However, it would be something very useful if it were to exist. 
+Like REST, many architectural styles are composites, but so are software design tools [^1]. A design tool is a tool, when applied, solves a design problem. Divide-and-conquer is a good example. Such a tool could be a composite of multiple (relatively) primitive design tools. For example, polymorphism is based on *Generalization* which itself is based on *Abstraction*. 
 
-For example, it is known that microservices provide isolation. But, not be much if the abstraction (type/scope/nature of services it provides) does not provide low coupling/high cohesion. (See image below). You see now?
+There isn't any formal classification (that I know) of design tools, probably because it is considered common knowledge. However, it would be something very useful if it were to exist. 
+
+For example, it is known that microservices provide isolation. But, it would not be much if the abstraction (type/scope/nature of services it provides) does not provide low coupling/high cohesion. 
 
 What does such classification look like? I have tried to create one for some commonly used design approaches (OOAD, DDD etc) and their elements. See image below [^2].
 
@@ -40,4 +42,4 @@ Now, here are some useful observations I made from the classification
 
 [^1]: I use 'design tool' as opposed to 'design principle', because a principle in common usage today refers to something concrete like 'single responsibility principle'. I found the word 'tool' to be more appropriate, because it is a thing you can apply and achieve something.
 
-[^2]: I confess that the image may not be 100% accurate. I am not an academician. This image was originally my notes. I have been using it for discussions with colleagues in my organization. It has been evolving over time as I learn more and put more thought into their relationships.
+[^2]: I confess that the image may not be 100% accurate. This image was originally my notes. I have been using it for discussions with colleagues in my organization. It has been evolving over time as I learn more and put more thought into their relationships.
