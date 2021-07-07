@@ -1,7 +1,7 @@
 ---
-title: REST - A closer look
-date: 2020-07-19
-description: Defence Against the Dark Arts (abbreviated as DADA) is a subject taught at Hogwarts School of Witchcraft and Wizardry and Ilvermorny School of Witchcraft and Wizardry. In this class, students study and learn how to defend themselves against all aspects of the Dark Arts, including dark creatures, curses, hexes and jinxes (dark charms), and duelling.
+title: REST (Part-1) - A closer look
+date: 2020-06-19
+description: 
 tags:
   - REST 
   - API
@@ -14,12 +14,18 @@ For something that is so ubiquitous, there are countless articles, videos which 
 This is an aggregation of my notes from reading these references. I have written it as a note to myself. But I hope its useful to you.
 
 ### Prerequisite
-You have already read of REST, its constraints and have designed/implemented a few APIs.
+Before you proceed, its probably best to have some background on REST APIs, and know what an 'architectural style' is.
+
+An architectural styles imposes certain constraints. Terms 'Style' and 'Constraint' are used interchangeably here.
 
 ### Outline
-- Briefly state and analyse REST constraints
-- Their benefits,
-- Reasons behind their inclusion.
+- Briefly state first five REST constraints
+- Look at their consolidated benefits
+- When do we stand to lose benefits?
+- Notes on Uniform Interface
+- Compare Resource with a façade interface
+- Why HATEOS is important - its adoption, applicability for a medium size org.
+- Disadvantages of REST
 
 ### 6 Constraints
 REST is an architectural style for designing *communication* for network-based application software.
@@ -34,13 +40,9 @@ It is an aggregation of 6 architectural styles, which, together, synergistically
 - Uniform Interface
 
 
+### Five Constraints (LCODC$SS)
+Roy Fielding chose 5 network-based architectural styles/constraints out of the many that he evaluated for their merits and demerits. Brief description of styles:
 
-### Five Network Based Styes
-Roy Fielding chose 5 network-based architectural styles out of the many that he evaluated for their merits and demerits.
-
-![](./restimages/stylesindissert.png)
-
-Brief description of styles:
 1. Client-Server (CS):    
     Separation of concerns — Client is concerned with UI & everything else is a concern of server.
 Server provides services on request.
@@ -64,8 +66,10 @@ Server provides services on request.
     
     Cache provides interface of a server and consumes interface of a server and provides caching in a transparent way. It can be part of layered systems or could be just a library at client or any layered systems
     
-_(I urge you to read further from Section 3 of [1] and the literature from where they are sourced [3].)_
+_(I urge you to read further from Section 3 of [^1] and the literature from where they are sourced [^3].)_
 
+This is probably the best representation of five styles from the thesis.
+![](https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm#fig_5_7)
 
 #### Benefits
 R. Fielding summarises his evaluation of individual styles and their combinations against various metrics in Table 3–6 of [1] (captured below). 
@@ -81,23 +85,14 @@ The highlighted row **LCODC$SS** is evaluation for combination of five styles li
 **Cons:**
 ![](./restimages/restcons.png)
 
+#### Loosing Benefits
+
 With this perspective, it becomes clear as to what we stand to gain or lose if an individual style were used or not used. For example - 
 - Cache is not used
 - APIs have session
 - Server API response is in HTML
-- Payloads are encrypted
-- There is a single URL with action specified in payload
-
-
-### Influences of LCODC$SS styles on Interface Design
-
-![](./restimages/5stylespath.png)
-
-
-Each style induces a certain requirement on the server API interface.
-
-![](./restimages/stylereqs.png)
-
+- Payloads are encrypted and cannot be read by intermediaries (e.g., https)
+- There is a single URL with action specified in payload (RPC style)
 
 
 ### Uniform Interface
@@ -105,13 +100,15 @@ Each style induces a certain requirement on the server API interface.
 These above requirements from LCODC$SS can be met while designing the interfaces in different ways by individuals/companies with varying degrees of commonality. REST proposes a ‘common set of constraints’ that address these requirements, while also providing additional benefits. This commonality makes all interfaces *'Uniform'*.
 
 #### Goals
-IMO, from [1] and [2], it seems that uniform interface constraints address below goals.
+While the five constraints existed before, the uniform interface constraint did not and was conceived and included in REST. Its the most distinct feature of REST. 
 
-1. Satisfying the needs/not violating the constraints of other styles (See previous section)
+Roy does not explicitly setout goals or needs that spurred this constraint, but I think its useful to deduce from [^1] and [^2]
+
 1. Provide Data Encapsulation
 1. Bringing evolvability from browser-HTML-server success story. (See [this](https://www.ics.uci.edu/~fielding/pubs/dissertation/evaluation.htm#sec_6_1))
+1. Work well with other styles (See previous section)
 
-
+<br/>
 
 #### Four Interface Constraints
 REST is defined by four interface constraints
@@ -120,14 +117,20 @@ REST is defined by four interface constraints
 * Self-descriptive messages; and,
 * Hypermedia as the engine of application state
 
+<br/>
 
+##### Identification of resources 
 
-##### Resource 
+> The key abstraction of information in REST is a 'resource'. Any information that can be named can be a resource.[^1]
+
 A REST API is accessor or manipulator of resource. 
-From [1]
-> The key abstraction of information in REST is a resource. Any information that can be named can be a resource
 
-An abstraction of some information is similar to an interfaces/APIs in a programming languages. An abstraction of a larger information space, is similar to a façade interface.
+Diving a larger information space into smaller abstract resources, is similar to a façade interface pattern.
+
+Examples:
+![](./restimages/resource_facade.png)
+
+Identification of resources is a key design activity that requires understanding of the domain, to decide the right granularity and abstractions for resources.
 
 So the benefits of resource are clear
 * least coupling
@@ -135,46 +138,23 @@ So the benefits of resource are clear
 * conceptual conciseness, 
 * efficiency of communication 
 
-Examples:
 
-![](./restimages/resource_facade.png)
-
-
-
-##### Identification of resources
-The need of clients to reference and access resources, implies that resources have to be identified uniquely across the web. 
-
-REST chooses Uniform Resource Identifiers (URL,URNs) for this.
-
-Why? - Because cache and layered systems styles necessitate a uniformity in addressing. See [influences above](https://pchethan.github.io/2020/07/19/REST.html#influences).
-
-
-
-##### Representations and Data Encapsulation
-
-Roy Fielding discusses data encapsulation problem in Section 5.2.1 [1]
-It is addressed by using the abstractness and indirection provided by resources.
-
-A representation is a sequence of bytes, which (not surprisingly) represents a resource. It is made up of data and meta-data associated with the resource. Due to the abstractness, a representation is derived by applying a transformation from raw data. There by, data encapsulation is achieved.
+##### Manipulation of resources through representations
+A representation as the name suggests, represents a resource. Manipulating resources by transfering only the representations which contains data which maps to a resource at a concept level.
 
 Example: A hospital may have an 'Appointment' resource for consulting with doctors. It may contain start time, end time, doctor's name/id, consulting room name etc. But a more complex data structure may be behind an appointment with references to doctor's calendar, etc. 
 
+###### Data Encapsulation
+Representations provide data encapsulation we talked about in [](#Goals) section above
 
 
 ##### Self-descriptive messages
-Layered Systems and Statelessness styles necessitate ‘self-descriptive messages’. (See [influences above](https://pchethan.github.io/2020/07/19/REST.html#influences).)
+Interaction is stateless between requests, standard methods and media types are used to indicate semantics and exchange information, and responses explicitly indicate cacheability.
+
+Self-descriptive messages is also a requirement of LS style.
 
 
-
-##### Hypermedia as the engine of application state
-- or HATEOAS. 
-
-
-* * *
-
-### HATEOAS
-
-HATEOAS wasn't described until [2]. 
+##### Hypermedia as the engine of application state (HATEOAS)
 
 The goal of HATEOAS is *evolability* - similar to one achieved browser-HTML-server success story. 
 
@@ -193,26 +173,25 @@ Intention of HATEOAS is to achieve the same success with REST. Broadly, the cont
     Clients should be able to start with a bookmark URI and navigate resource heirarchy/model through URIs provided by server responses. Client is coupled with only the initial URI or few URIs. Server is free to change the resource namespace.
 
 1. Common Vocabulary: 
-    Clients must understand reponses and be able to construct requests by an understanding of media-type that is shared with clients beforehand (For e.g., a clients knows how to render text/html and client knows how to make form submissions). That is client and server have a common vocabulary, that may be domain agnostic or domain specific. So, it is possible that the media type could be standardised fully (e.g., Atom) or partially (HAL)
+    Clients must understand responses and be able to construct requests by an understanding of media-type that is shared with clients beforehand (For e.g., a clients knows how to render text/html and client knows how to make form submissions). That is client and server have a common vocabulary, that may be domain agnostic or domain specific. So, it is possible that the media type could be standardised fully (e.g., Atom) or partially (HAL)
 
-See [2] for more details
+See [^2] for more details
 
-#### HATEOAS Adoption
+##### HATEOAS Adoption
 There isn’t a lot of adoption of HATEOAS. 
 
-From [1]
->REST is software design on the scale of decades: every detail is intended to promote software longevity and independent evolution
+>REST is software design on the scale of decades: every detail is intended to promote software longevity and independent evolution[^4]
 
 Many believe that they are not building APIs for web scale or for the longitivity of decades and may never see returns.
 
 I believe the benefits are not only for projects like Atom, but are also for all platforms of medium to large size.
 
-#### Loose Coupling Benefits
-Lets consider a service with 200 APIs. Lets consider that the organization which is providing this service has multiple tenants and multiple client per tenant.
+##### Applicability for a medium scale org/service
+Lets consider a SaaS service with 200 APIs. Lets consider that the organization which is providing this service has multiple tenants and multiple UI clients per tenant.
 
 Below diagram show how complex it would be to undertake a change in server, without resorting to API versioning and adding clients with intelligence to be compatible with the migration process.
 
-It is more of a problem for native clients, than web clients which are more dynamic (COD style) 
+It is more of a problem for native clients, than web clients which are more dynamic (COD) 
 
 API versioning with version in URL would mean that the client entirely switches to a new version with a base url containing new version. This prevents partial evolution and may introduce duplication of code. 
 
@@ -224,12 +203,8 @@ Contrast this with the HATEOAS approach
 
 An additional indirection gives return on investment in the evolution of servers, even though it seems overly complex to fetch just one URL.
 
-#### Common Vocabulary Benefits
-Scaling clients (More client variants/choices) without server’s knowledge.
-
-Browser-HTML-Server and client-EMail-SMTP Server are good examples.
-
-#### Disadvantages
+#### Disadvantages of REST
+There is an efficiency trade-off. 
 There is an efficiency trade-off. (See [contributions above](https://pchethan.github.io/2020/07/19/REST.html#cons)
 
 Dissertation:
@@ -238,6 +213,8 @@ Dissertation:
 Even though the above statement is about the server’s needs, it applies equality to clients needs. To a server, all clients and their needs are equal.
 
 If a business intends to support heterogenous clients varying highly with CPU, memory and software capabilities, this trade-off could prove expensive.
+
+I believe here is where graphQL shines.
 
 ### Conclusion
 Although Roy Fielding does not agree to the idea calling an API as RESTful unless all constraints are applied — there are significant benefits to be gained from partial adoption.
@@ -250,9 +227,11 @@ I hope that this post provides some information/insight to
 
 
 ### References
-[1] [Roy Fielding’s dissertation](https://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm)
+[^1]: Roy Fielding’s dissertation: https://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm
 
-[2] [Roy Fielding’s blog on REST](https://roy.gbiv.com/untangled/2008/rest-apis-must-be-hypertext-driven)
+[^2]: Roy Fielding’s blog on REST: https://roy.gbiv.com/untangled/2008/rest-apis-must-be-hypertext-driven
 
-[3] [References of dissertation](https://www.ics.uci.edu/~fielding/pubs/dissertation/references.htm)
+[^3]: References of dissertation: https://www.ics.uci.edu/~fielding/pubs/dissertation/references.htm
+
+[^4]: REST is software design on the scale of decades: every detail is intended to promote software longevity and independent evolution: https://roy.gbiv.com/untangled/2008/rest-apis-must-be-hypertext-driven#comment-724
 
