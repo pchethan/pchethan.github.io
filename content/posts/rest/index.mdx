@@ -11,7 +11,15 @@ In the context of web services, the term API almost always refers to REST API. I
 
 For something that is so ubiquitous, there are countless articles, videos which are inaccurate and contradicting. To this day, Roy Fielding’s dissertation[1] and his blog[2] serve as the only authoritative references. The good thing is that both the dissertation and blog are easy to read and understand.
 
-This is an aggregation of my notes from reading these references. I have written it as a note to myself. But I hope its useful to you.
+I wanted to talk about different aspects with some reasoning for each.
+
+- Briefly state first five REST constraints
+- Look at their consolidated benefits
+- When do we stand to lose benefits?
+- Notes on Uniform Interface
+- Compare Resource with a façade interface
+- Why HATEOS is important - its adoption, applicability for a medium size org.
+- Disadvantages of REST
 
 ### Prerequisite
 Before you proceed, its probably best to have some background on REST APIs, and know what an 'architectural style' is.
@@ -215,15 +223,6 @@ Even though the above statement is about the server’s needs, it applies equali
 If a business intends to support heterogenous clients varying highly with CPU, memory and software capabilities, this trade-off could prove expensive.
 
 I believe here is where graphQL shines.
-
-### Conclusion
-Although Roy Fielding does not agree to the idea calling an API as RESTful unless all constraints are applied — there are significant benefits to be gained from partial adoption.
-
-I hope that this post provides some information/insight to
-- Designing API to achieve benefits that matter in the context of your application/domain
-- Evaluate existing REST APIs
-- Qualitify what is gained or lost when a constraint is used/not used.
-- Compare against alternatives
 
 
 ### References
