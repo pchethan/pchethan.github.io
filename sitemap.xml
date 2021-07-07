@@ -5,7 +5,8 @@
 <url> <loc>https://pchethan.github.io/tags</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pchethan.github.io/composition-of-design-tools</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pchethan.github.io/a-design-for-orchestration-with-microservices</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
-<url> <loc>https://pchethan.github.io/rest-a-closer-look</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://pchethan.github.io/rest-part-2-api-guidelines</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://pchethan.github.io/rest-part-1-a-closer-look</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pchethan.github.io/about</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pchethan.github.io/tags/api</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pchethan.github.io/tags/architecture</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
