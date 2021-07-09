@@ -11,8 +11,11 @@
 <url> <loc>https://pchethan.github.io/tags/api</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pchethan.github.io/tags/architecture</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pchethan.github.io/tags/centrum</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://pchethan.github.io/tags/classification</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pchethan.github.io/tags/design</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pchethan.github.io/tags/orchestration</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://pchethan.github.io/tags/qualities</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pchethan.github.io/tags/rest</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 <url> <loc>https://pchethan.github.io/tags/saga</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
+<url> <loc>https://pchethan.github.io/tags/lities</loc> <changefreq>daily</changefreq> <priority>0.7</priority> </url>
 </urlset>
