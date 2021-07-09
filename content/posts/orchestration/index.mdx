@@ -4,6 +4,8 @@ date: 2020-07-21
 tags:
   - Design
   - Architecture
+  - Orchestration
+  - Saga
   - Centrum
 ---
 This article describes the design of an application framework which helps in implementation of business procedures using orchestration with microservices. 
@@ -30,13 +32,11 @@ For example, in an e-commerce business, completing an order may invo­­lve belo
   - Packaging
 - Email, SMS Verifications
 
-
-
 ![](./orchestrationimages/optree.png)
 
-Fig: Op Tree
+**Fig: Business Procedure**
 
-
+<br/>
 
 The tree could be of arbitrary depth. For example, payment processing may involve, applying coupon codes, promotions, discounts in addition to talking to external payment gateways, e-wallets etc.
 
@@ -50,16 +50,27 @@ So business procedures invariably span multiple microservices.
 
 #### Orchestration
 
-'Orchestration' is an design where a single microservice (say, &#39;owner&#39;), provides a business procedure as a service. It provides this service by implementing an execution plan and progressing a &#39;cursor&#39; on the plan and invoking services of other microservices wherever needed. That is -- the owner microservice acts as controller.
+'Orchestration' is an design where a single microservice (lets call it - 'owner'), takes responsibility executing a business procedure from start to end.  It does this by implementing an execution plan and progressing a 'cursor' on the plan and invoking services of other microservices wherever needed. That is -- the owner microservice acts as controller. 
+
+Orchestration is a type of ['Saga'](https://microservices.io/patterns/data/saga.html)
 
 An execution plan creates a topology of microservices.
 
+<br/>
+
 ![](./orchestrationimages/topology.png)
 
+**Fig: Execution Topology**
+
+<br/>
 
 Execution of procedure could look like this:
 
 ![](./orchestrationimages/callseq.png)
+
+**Fig: Call Sequence**
+
+Note: the calls could be HTTP calls or events.
 
 
 ##### Intra-microservice Orchestration
@@ -67,53 +78,60 @@ Execution of procedure could look like this:
 If a microservice is organized into modules or layers with clear boundaries, there could be orchestration within microservices too.
 
 
-##### Orchestration View
+##### Consolidated Orchestration View
 
 A view of intra and inter microservices orchestration is depicted in diagram below.
 
-![](./orchestrationimages/datamodel.png)
-Fig: Op Data Tree
+![](./orchestrationimages/orchestrationview.png)
 
+**Fig: Op Tree**
 
+Each rectangle within a microservice could be an *Aggregate* (DDD). 
+
+So, a logical view of 'op tree' does not have microservices boundaries.
 
 ### Design
 
 #### Data Model
 
-A business procedure is modelled as a tree of operations (*Op tree*) that spans within and across microservices. An &#39;operation&#39; is a unit of work.
+So, to recall, a business procedure is modelled as a tree of operations (Fig: *Op tree*) that may span within and across microservices. An 'operation' is a unit of work.
 
 Running a procedure generates data. 'Operation Data' (*Op data*) is the data created by each operation during a run.
 
-'Operation Data Tree'; (*Op data tree*) is a tree of op data created with the same structure as op tree. One op data tree is created for every procedure run.
+This design proposes an 'Operation Data Tree' (*Op data tree*) - A tree of op data created with the same structure as op tree. One op data tree is created for every procedure run.
 
+![](./orchestrationimages/datamodel.png)
+
+**Fig: Op Data Tree**
 
 While op data differs for every type of operation, below common attributes are prescribed
 
 - Unique operation invocation identifier.
-- State (Say - InProgress, Failed, Success, Expired)
-- Parent operation identifier
-- Child operation identifiers
-- Root operation identifier
-- Error
+- State (InProgress, Failed, Success, Expired)
+- Parent operation invocation identifier
+- Child operation invocation identifiers
+- Root operation invocation identifier
+- Error (Details with specific error id and message)
 
-When we have op data tree, there is no need for a separate state machine. The tree itself serves as a consolidated state machine. This is so much better than having a single state machine in each microservice.
+When we have op data tree, there is no need for a separate state machine. The tree itself serves as a consolidated state or the 'cursor' for the business procedure. This is so much better than having a separate state machine in each microservice.
+
+This op data tree is contained within the *owner*. Owner can collect op data including updates during op lifecycles from within or other microservices using eventing solutions like Kafka.
 
 #### Microservice API Model
 
-To effectively implement sagas, we define following API model.
+To effectively implement orchestration, we define following API model.
 
 1. APIs must allow callers to set a timeout period, beyond which a callee ceases to continue with any further actions associated with the API.
-  1. APIs must succeed or fail within timeout period. Else, they are considered to be &#39;expired&#39;.
-  2. This is inline with states of op data (see above).
-2. If required by callers, a microservice must provide an API to reverse a performed action.
-
+    - APIs must succeed or fail within timeout period. Else, they are considered to be 'expired'
+    - This is inline with states of op data (see above).
+2. If required by callers, a microservice must provide an API to reverse a performed action. Also called as [compensating](https://microservices.io/patterns/data/saga.html) actions.
 
 
 #### Op Manager
 
 An operation manager is an entity which performs actions associated with an operation. A framework creates this manager as soon as someone creates an op data and requests initiation by dispatching an event.
 
-A unique op manager type exists for every unique op data type. For e.g., &#39;SendOTPData&#39; OD class is associated with &#39;SendOTPManager&#39; class.
+A unique op manager type exists for every unique op data type. For e.g.,'SendOTPData' op data (*OD*) class is associated with 'SendOTPManager' class.
 
 - It manages the life-cycle of an operation.
 - It reads and writes to op data it is associated with
@@ -121,31 +139,42 @@ A unique op manager type exists for every unique op data type. For e.g., &#39;Se
 - It invokes at most one external API. (If more than one API needs to be called, the operation must be split into multiple)
 - It can delegate by creating any number of child operations.
 - It enforces timeout period.
-- It concludes result of operation as success/failure/expiry.
+- It concludes result of operation as success/failure/expired.
 - It notifies manager of parent operation with result, as an event.
-
-
-
-![](./orchestrationimages/opmanager.png)
-
-Fig: View of op manager with associated op data
-
-
 
 ![](./orchestrationimages/opmanagerlifecycle.png)
 
-Fig: Life-cycle event flows with op manager
+**Fig: Op Manager working with its op data and other op managers, life cycle event propagation**
+
+<br/>
+
+![](./orchestrationimages/opmanager.png)
+
+**Fig: Execution view of an orchestrated business procedure**
 
 
+#### Op Manager Registry
+An application must register its op managers with the framework so that as soon as an op data of type 'X' is created and initiated, the framework looks up the registry, finds the corresponding manager and instantiates it.
 
-#### Modus Operandi
 
-Putting all together, an op tree is executed as follows.
+#### Op Manager - Op Data; Reduced coupling
+Op manager of A creates op-data for sub-operation B. This means that op manager has knowledge of Op-data B and not the op manager B. 
+
+This is because the structure of Op-data is standarized and the operation name itself would be a string. Only the input parameters different from operation to operation. This input param is stored as a serialized string. 
+
+So, the only coupling of Op Manager A is with the input data for B, which can be documented and published by author of B. 
+
+This has far less coupling compared to A being aware of B's constructors and other semantics.
+
+
+#### Putting it all together
+
+An op tree is executed as follows.
 
 1. Op data for top level operation is created in database. Say OD-1.
 2. OD-1 is initiated.
-3. An op manager which can handle op data is created.
-4. It does these things
+3. An op manager which can handle such op data is looked up from registry and created.
+4. This op manager does these things
   1. Optionally, it invokes one or more local service APIs
   2. Optionally, it invokes an external API and gets result (Success/Failure/Expiry). This alone may determine the result of this operation or it may be preceded by, succeeded by or sandwiched in-between one or more child operations.
   3. It runs child operations (if any) sequentially. That is it creates and initiates a child OD and waits for result from its OM before proceeding to next child operation.
@@ -156,13 +185,14 @@ This is recursively applied to each and every operation.
 
 
 
-#### Programming Model
+#### Programming Model (Java)
 
-A model to implement an op manager and child receptors is to use class and nested classes as shown below.
+This design proposes a programming model to implement an op manager and child receptors with the use of class and nested classes as shown below.
 
 ![](./orchestrationimages/opmanagerlifecycle2.png)
 
-Life-cycle event flows with op manager
+**Fig:Life-cycle event flows with op manager**
+
 
 Diagram below shows a model of a class which implements an operation manager.
 
@@ -171,13 +201,15 @@ At a high level, it has the two sections
 - Part which handles the invocation and handling of responses of internal or external API calls.
 - Child operation event handlers.
 
-Although the child receptors can be created in a separate class, putting them in inner class provides a unified view of the operation manager in a single place. This is especially the case since most of the meat of the operation activity is in the details of how it handles child life cycle events.
+Although the child receptors can be created in a separate class, putting them in a static inner class provides a unified view of the operation manager in a single place. This is especially the case since most of the meat of the operation activity is in the details of how it handles child life cycle events.
 
 The inner class also depicts the parent-child relationship and helps comprehend an operation manager in a much easier way.
 
 ![](./orchestrationimages/programmingmodel.png)
 
+**Fig: Programming Model**
 
+- -
 
 #### Examples
 
@@ -185,11 +217,11 @@ The inner class also depicts the parent-child relationship and helps comprehend 
 
 Requirement: There are two ways to send OTP to user - via SMS and/or Email. Sending OTP over email if sending over SMS fails. Do not send OTP over email if mobile number is invalid.
 
-It begins with some part of the system initiating OneTimePasswordConfirmationManager. onInitiate() is chartered to do the work of a sending OTP. It first creates a child transaction PurchaseOTPNotifierOverSMS and schedules it. The input parameters for sending SMS are put into the transaction before initiating.
+It begins with some part of the system initiating OneTimePasswordConfirmationManager. onInitiate() is chartered to do the work of a sending OTP. It first creates a child operation PurchaseOTPNotifierOverSMS and schedules it. The input parameters for sending SMS are put into the operation before initiating.
 
-The transaction manager associated with PurchaseOTPNotifierOverSMS does what it is supposed to do and conveys the success/failure/expiry to a dedicated handler setup by OTPNotifierOverSMSChildHandler.
+The op manager associated with PurchaseOTPNotifierOverSMS does what it is supposed to do and conveys the success/failure/expiry to a dedicated handler setup by OTPNotifierOverSMSChildHandler.
 
-If sending SMS fails, sending email is attempted. If the reason for SMS failure was an &#39;Invalid number&#39;, the transaction is marked as failed immediately.
+If sending SMS fails, sending email is attempted. If the reason for SMS failure was an 'Invalid number', the op data is marked as failed immediately.
 
 ```java
     public class OneTimePasswordConfirmationManager implements IOperationManager {
@@ -361,9 +393,9 @@ Overall the design provides below benefits.
 
 This design allows high evolvability between parent and child operations, due to below factors
 
-- Child op is not aware of the parent
+- Ops are composable
 - Op tree can be constructed dynamically
-- An operation is initiated via an event
+- Reduced coupling between op manager and op-data of other ops.
 
 The OTP example is a good illustration of this benefit.
 
@@ -375,7 +407,7 @@ Caller can identify an unresponsive API predictably, and recover from there.
 
 Implementation of callee becomes simple due to the fact that it does not have to deal with slow progressing or dead-locked operations since it can fail such operations at timeout and avoiding long running APIs and pile up of operations.
 
-Error resilience is baked into the system and can be easily enforced, through code scans.
+Error resilience is baked into the system and can be easily enforced, through static code scans.
 
 #### Extensibility
 
@@ -407,8 +439,3 @@ Once available in UI --
 - Development teams would be able to look at the current in-progress operations as well as the detailed errors of individual failed operations.
 - Support teams would be able to look at the tree and point to specific operations
 
-
-
-### References
-
-1. [https://microservices.io/patterns/data/saga.html](https://microservices.io/patterns/data/saga.html)
