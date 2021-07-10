@@ -10,19 +10,19 @@ tags:
 ---
 There are many ways to classify design approaches and their elements. By their structure, behaviour, class of problems they solve, domain in which they exist etc. They serve different purposes - catalogueing, learning, reference, compare/contrast etc.
 
-What about classifying by the design tools which were used in conceiving them? 
+How about classifying by the design tools which were used in conceiving them? 
 
 Before we go further, let me clarify what I mean by 'design tool'. A design tool (for lack of a better name [^2]) is a tool, when applied, solves a design problem. Divide-and-conquer is a good example, although it is not specific to software domain. Such a tool could combine and evolve resulting in composite design tools. For example, Polymorphism is derived from Typing, which is based on [Generalization](https://en.wikipedia.org/wiki/Generalization) which itself is based on Abstraction. 
 
-There is a distinct advantage with this type of classification. Design tools unlike other classification criteria, induce their distinct [qualities](https://en.wikipedia.org/wiki/List_of_system_quality_attributes) (or '-ilities'), into whichever composite tool or design approach that use them. The net qualities make an excellent way to measure the soundness/applicability of any design to a design problem. 
+There is a distinct advantage with this type of classification. Design tools unlike other classification criteria, induce their distinct [qualities](https://en.wikipedia.org/wiki/List_of_system_quality_attributes) (or '-ilities'), into whichever composite tool or design approach that use them. The resulting qualities make an excellent way to measure the soundness/applicability of any design to a design problem. 
 
-There is already an excellent example of such classification, quantification and conclusion - REST[^1]. Roy Fielding's thesis[^1] derives REST from various architectural styles. His derivation graph (reproduced below for convenience) shows simpler styles combining and evolving into composite styles while their qualities are combined and mixed in the process. Roy Fielding traces REST's final [resultant qualities](https://www.ics.uci.edu/~fielding/pubs/dissertation/net_arch_styles.htm#sec_3_9) from this derivation graph.
+This is not new. There is already an excellent example of such classification, quantification and conclusion - REST[^1]. Roy Fielding's thesis[^1] derives REST from various architectural styles. His derivation graph (reproduced below for convenience) shows (relatively) simpler styles combining and evolving into composite styles while their qualities are combined and mixed in the process. Roy Fielding traces REST's final [resultant qualities](https://www.ics.uci.edu/~fielding/pubs/dissertation/net_arch_styles.htm#sec_3_9) from this derivation graph.
 
 [![https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_derivation.gif](https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_derivation.gif)](https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_derivation.gif)
 
 Source: https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_derivation.gif
 
-So, what would a derivation for design tools look like for design approaches commonly used today (say, OOAD, DDD etc)? I have tried to create one [^3]. See image below.
+So, what would a classification of design approaches (like say, OOAD, DDD etc) look like? I have tried to create one [^3]. See image below.
 
 ![](./designimages/tools.png)
 
@@ -35,22 +35,28 @@ How to read this image? - Its similar to the derivation graph image above.
 
 Computing the lities of everything in this image is an excercise in itself - thats for another day.
 
+Lets look at just one: 'isolation' in the context of microservices.
+
+![](./designimages/isolation.jpg)
+
+- -
+
 Beside that, the graph itself is just as useful as any map:
 
-- Not losing sight of first principles behind the design approaches we use. For example:
-It is known that microservices provide isolation. But it is not automatic. The abstraction (type/scope/nature of services it provides) must be good enough to provide low coupling/high cohesion.
+- It is a condensed piece of information about designs and their relationships - Serves as reference for objective discussions
 
-- Two designs that are close in their makeup are likely similar, yield similar benefits. The graph thus forms clusters of similar designs. 
+- Demystify designs; see what they really are under the hood. 
 
-- If you have an understanding of one design principle, its easier to begin understanding its siblings, cousins etc.
+- Not lose sight of first principles behind the design approaches we use. E.g, It is known that microservices provide isolation. But it is not automatic. The abstraction (type/scope/nature of services it provides) must be good enough to provide low coupling/high cohesion.
 
-- Reference for discussion, refinement of relationships
+- Helps discover related design approaches/solutions.
+
 
 <br/>
 
 
 [^1]: Roy Fielding’s dissertation: https://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm
 
-[^2]: I use 'design tool' as opposed to 'design principle', because a principle, in common usage today, refers to something concrete like 'single responsibility principle'. I found the word 'tool' to be more appropriate, because it is a thing you can apply and achieve something.
+[^2]: I use 'design tool' as opposed to 'design principle', because a principle, in common usage today, refers to something concrete like 'single responsibility principle'. I found the word 'tool' to be more appropriate, because it is a thing you can apply and achieve something. I am also not aware if there is any better term already defined somewhere.
 
 [^3]: I confess that the image may not be 100% accurate. This image was originally my notes. I have been using it for discussions with colleagues in my organization. It has been evolving over time as I learn more and put more thought into their relationships.
