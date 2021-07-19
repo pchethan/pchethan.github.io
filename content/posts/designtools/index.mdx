@@ -8,55 +8,48 @@ tags:
   - Qualities
   - lities
 ---
-There are many ways to classify design/architecture approaches (also called styles/patterns). By their structure, behaviour, class of problems they solve, domain in which they exist etc. They serve different purposes - readily available reference to be applied to recurring problems, learn/compare/contrast etc.
 
-How about classifying by the design tools which were used in conceiving them? 
+OOAD, Domain driven design, SOLID design principles, client-server, CQRS, Separation of Concerns, Facade, Adapter, Abstraction, Pipes & Filters, Microservices, Read-Write Separation, Model-View-Controller ... thats a lot of design choices at one's disposal, and the list appears very long. Its definitely disorenting even for the experienced. The list is growing[^5] by the day. 
 
-Before we go further, let me clarify what I mean by 'design tool'. A design tool (for lack of a better name [^2]) is a tool, when applied, solves a design problem. Divide-and-conquer is a good example, although it is not specific to software domain. Such a tool could combine and evolve resulting in composite design tools. For example, Polymorphism is derived from Typing, which is based on [Generalization](https://en.wikipedia.org/wiki/Generalization) which itself is based on Abstraction. 
+Understanding design principles/patterns/approaches, knowing what they are at their core, their DNA, is extremely important. So are their relationships in relation to other. 
+
+We need classification.
+
+[This](https://en.wikipedia.org/wiki/Template:Design_Patterns_patterns) is helpful it soon becomes evident that its utility is limited. Client-Server, DDD are crammed into 'architectural patterns' box.  
+
+There are various non-standard classifications everywhere. [This book](https://en.wikipedia.org/wiki/Pattern-Oriented_Software_Architecture) has classifications based on the problem domain (Synchronization patterns, Concurrency patterns), while [this](https://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm) has based on the nature of the patterns (Hierarchical, Peer-to-Peer). 
+
+May be there is some thesis which has a good look at all of them, but I can't find one. So, I compiled my notes and decided to classify them, based on the fundamental design tools that are used in creating them. 
+
+Before we go further, let me clarify what I mean by 'design tool'. A design tool (for lack of a better name [^1]) is a tool, when applied, solves a design problem. Divide-and-conquer is a good example, although it is not specific to software domain. Such a tool could combine and evolve resulting in composite design tools. For example, Polymorphism is derived from Typing, which is based on [Generalization](https://en.wikipedia.org/wiki/Generalization) which itself is based on Abstraction. 
 
 There is a distinct advantage with this type of classification. Design tools unlike other classification criteria, induce their distinct [qualities](https://en.wikipedia.org/wiki/List_of_system_quality_attributes) (or '-ilities'), into whichever composite tool or design approach that use them. The resulting qualities make an excellent way to measure the soundness/applicability of any design to a design problem. 
 
-This is not new. There is already an excellent example of such classification, quantification and conclusion - REST. Roy Fielding's thesis[^1] derives REST from various architectural styles. His derivation graph (reproduced below for convenience) shows (relatively) simpler styles combining and evolving into composite styles while their qualities are combined and mixed in the process. Roy Fielding traces REST's final [resultant qualities](https://www.ics.uci.edu/~fielding/pubs/dissertation/net_arch_styles.htm#sec_3_9) from this derivation graph.
+Plus, the classification embodies how a problem is solved; So, two design patterns/approaches which can be used as alternatives, appear together as related.
+
+Plus, the classification shows the unique parts of a design. For e.g., layered architecture is just separation of concerns. The unique part is the ordered dependencies.
+
+This is not new. There is already an excellent example of such classification, quantification and conclusion - REST. Roy Fielding's thesis[^2] derives REST from various architectural styles. His derivation graph (reproduced below for convenience) shows (relatively) simpler styles combining and evolving into composite styles while their qualities are combined and mixed in the process. Roy Fielding traces REST's final [resultant qualities](https://www.ics.uci.edu/~fielding/pubs/dissertation/net_arch_styles.htm#sec_3_9) from this derivation graph.
 
 [![https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_derivation.gif](https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_derivation.gif)](https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_derivation.gif)
 
-Source: https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_derivation.gif
 
-So, what would a classification of design approaches (like say, OOAD, DDD etc) look like? I attempted and ended up creating one [^3]. See below.
+Here is my attempt at creating a one such classification [^3].
 
 ![](./designimages/tools.jpg)
 
-How to read this image? - Its similar to the derivation graph image above.
-- An arrow depicts the contribution of one design tool in the formation of the other at arrow head.
-- Multiple arrow heads mean that a tool is a composite. E.g., Separation of Concerns is formed from abstraction (a common concept necessitating things sticking together) and divide-and-conquer (division of the problem space with different granularities of concepts)
-- Arrow labels indicate an abstract concept that forms a basis.
+I confess that the image may not be 100% accurate and in now way complete. This image was originally my notes. I have been using it for discussions with colleagues in my organization. It has been evolving over time as I learn more and put more thought into their relationships. I intend to publish an update when the image grows significantly.
 
-----
-
-Computing the lities of everything in this image is an excercise in itself - thats for another day.
-
-Lets look at just one: 'isolation' in the context of microservices.
-
-![](./designimages/isolation.jpg)
-
-- -
-
-Beside that, the graph itself is just as useful as any map:
-
-- It is a dense piece of information about designs and their relationships; Serves as reference for objective discussions
-
-- Demystify designs; see what they really are under the hood. 
-
-- Not lose sight of first principles behind the design approaches we use. E.g, It is known that microservices provide isolation. But it is not automatic. The abstraction (type/scope/nature of services it provides) must be good enough to provide low coupling/high cohesion.
-
-- Helps discover related design approaches/solutions.
+I hope you find this useful and intriguing. Do write to me if you have any comments / suggestions.
 
 
-<br/>
 
+[^1] I use 'design tool' as opposed to 'design principle', because a principle, in common usage today, refers to something concrete like 'single responsibility principle'. I found the word 'tool' to be more appropriate, because it is a thing you can apply and achieve something. I am also not aware if there is any better term already defined somewhere..
 
-[^1]: Roy Fielding’s dissertation: https://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm
-
-[^2]: I use 'design tool' as opposed to 'design principle', because a principle, in common usage today, refers to something concrete like 'single responsibility principle'. I found the word 'tool' to be more appropriate, because it is a thing you can apply and achieve something. I am also not aware if there is any better term already defined somewhere.
+[^2]: Roy Fielding’s dissertation: https://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm
 
 [^3]: I confess that the image may not be 100% accurate. This image was originally my notes. I have been using it for discussions with colleagues in my organization. It has been evolving over time as I learn more and put more thought into their relationships.
+
+[^4]: Object-Oriented Analysis and Design with Applications (Grady Booch et al)
+
+[^5] https://docs.microsoft.com/en-us/azure/architecture/patterns/#catalog-of-patterns
